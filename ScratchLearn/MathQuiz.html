@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <link rel="StyleSheet" href="css/css.css">
+    <script src="js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.get("session_info.php", function (data) {
+                $("#user-status").html(data);
+            });
+        });
+    </script>
+    
+        
+    
+</head>
+<!--Similar to physics quiz-->
+<body style="text-align: center;">
+    <header style="position: sticky;top: 0; z-index: 1000;">
+        <nav>
+            <a href="https://scratch.mit.edu/" target="_blank">
+                <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+            </a>
+            <a href="LogIn_SL.html">Log in</a>
+            <a href="SignUp_SL.html">Sign up</a>
+            <a href="About_SL.html">About</a>
+            <a href="Quizes.html">Quizzes</a>
+            <a href="learnonyourown.html">Discover Scratch </a>
+            <a href="feed.html">Leave a Feedback</a>
+            <a href="Leaderboards.html">Leaderboards </a>
+            <a href="SL_HomePage.html">
+                <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+            </a>
+        </nav>
+    </header>
+
+
+
+    <div class="container">
+        <h1>Math Quiz</h1>
+        <h2>Choose the correct answer for each question.</h2>
+
+        <form id="quizForm">
+            <div class="question">
+                <p>1. What is 3 × 4?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="10"> 10</label>
+                    <label><input type="radio" name="q1" value="12"> 12</label>
+                    <label><input type="radio" name="q1" value="15"> 15</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>2. What is 8 ÷ 2?</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="3"> 3</label>
+                    <label><input type="radio" name="q2" value="4"> 4</label>
+                    <label><input type="radio" name="q2" value="6"> 6</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>3. What is 5 × 2?</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="8"> 08</label>
+                    <label><input type="radio" name="q3" value="10"> 10</label>
+                    <label><input type="radio" name="q3" value="12"> 12</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>4. What is 9 ÷ 3?</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="2"> 2</label>
+                    <label><input type="radio" name="q4" value="3"> 3</label>
+                    <label><input type="radio" name="q4" value="4"> 4</label>
+                </div>
+            </div>
+
+            <button type="button" onclick="checkMathQuiz()">Submit</button>
+            <p class="result" id="mathResult"></p>
+        </form>
+
+        <p class="result" id="result"></p>
+
+    </div>
+<footer>
+        <p style="text-align: center; color: #666;">© 2025 Sratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+    
+</body>
+</html>

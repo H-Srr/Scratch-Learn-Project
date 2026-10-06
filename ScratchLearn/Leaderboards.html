@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboards - Learn Scratch</title>
+    <link rel="StyleSheet" href="css/css.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function loadLeaderboard() {
+                $.ajax({
+                    url: "fetch_leaderboard.php",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            renderLeaderboard(response.data);
+                        } else {
+                            showError(response.error || "Unknown server error");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showError("Request failed: " + status);
+                        console.error("AJAX Error:", status, error);
+                    }
+                });
+            }
+    
+            function renderLeaderboard(users) {
+                let html = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+    
+                users.forEach((user, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${user.username || 'N/A'}</td>
+                            <td>${user.email || 'N/A'}</td>
+                            <td>${user.id || 'N/A'}</td>
+                        </tr>`;
+                });
+    
+                html += `</tbody></table>`;
+                $("#leaderboard-content").html(html);
+            }
+    
+            function showError(message) {
+                $("#leaderboard-content").html(`
+                    <div class="error-message">
+                        <p>${message}</p>
+                        <button onclick="location.reload()">Retry</button>
+                    </div>
+                `);
+                console.error("Leaderboard Error:", message);
+            }
+    
+            // Initial load
+            loadLeaderboard();
+        });
+    </script>
+    
+    <style>
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 5;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .leaderboard-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .leaderboard-table tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+
+<header style="position: fixed;">
+    <nav>
+        <a href="https://scratch.mit.edu/" target="_blank">
+            <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+        </a>
+        <span id="user-status">Loading...</span>
+        <a href="About_SL.html">About</a>
+        <a href="Quizes.html">Quizzes</a>
+        <a href="learnonyourown.html">Discover Scratch </a>
+        <a href="feed.html">Leave a Feedback</a>
+        <a href="Leaderboards.html">Leaderboards </a>
+        <a href="SL_HomePage.html">
+            <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+        </a>
+    </nav>
+</header>
+
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="logsi-container">
+        <h2>Leaderboards</h2>
+        <div id="leaderboard-content">
+            Loading leaderboard data...
+        </div>
+    </div>
+
+    <footer style="position: fixed;">
+        <p style="text-align: center; color: #666;">© 2025 Sratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>

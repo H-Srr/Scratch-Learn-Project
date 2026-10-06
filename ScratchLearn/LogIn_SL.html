@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Learn Scratch</title>
+    <link rel="StyleSheet" href="css/css.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const email = $("#email").val();
+                const password = $("#password").val();
+
+                $.post("login.php", {
+                    email: email,
+                    password: password
+                }, function (response) {
+                    if (response.trim() === "success") {
+                        window.location.href = "SL_HomePage.html";
+                    } else {
+                        $("#error-msg").text(response);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<header style="position: fixed;">
+    <nav>
+        <a href="https://scratch.mit.edu/" target="_blank">
+            <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+        </a>
+        <a href="LogIn_SL.html">Log in</a>
+        <a href="SignUp_SL.html">Sign up</a>
+        <a href="About_SL.html">About</a>
+        <a href="Quizes.html">Quizzes</a>
+        <a href="learnonyourown.html">Discover Scratch </a>
+        <a href="feed.html">Leave a Feedback</a>
+        <a href="Leaderboards.html">Leaderboards </a>
+        <a href="SL_HomePage.html">
+            <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+        </a>
+    </nav>
+</header>
+
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="logsi-container">
+        <h2>Log In</h2>
+        <form id="loginForm">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+
+        <p id="error-msg" style="color: red; margin-top: 10px;"></p>
+
+        <a href="#">Forgot Password?</a>
+        <a href="SignUp_SL.html">Don't have an account? Sign Up</a>
+    </div>
+
+    <footer style="position: fixed;">
+        <p style="text-align: center; color: #666;">© 2025 Sratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>

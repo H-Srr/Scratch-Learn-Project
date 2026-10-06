@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback & FAQs</title>
+    <link rel="StyleSheet" href="css/css.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+    
+
+
+    <script>
+        $(document).ready(function () {
+            // Load feedback initially
+            $("#comments-section").load("load_feedback.php");
+
+            // Submit feedback form by AJAX
+            $("#feedbackForm").submit(function (e) {
+                e.preventDefault(); // prevent normal form submission
+
+                $.post("submit_feedback.php", {
+                    name: $("#name").val(),
+                    feedback: $("#feedback").val()
+                }, function (response) {
+                    // Clear form
+                    $("#name").val('');
+                    $("#feedback").val('');
+
+                    // Reload comments
+                    $("#comments-section").load("load_feedback.php");
+                });
+            });
+
+            // FAQ toggle behavior
+            $(".faq-question").click(function () {
+                $(this).next(".faq-answer").slideToggle();
+            });
+        });
+    </script>
+</head>
+
+<header style="position: sticky;">
+    <nav>
+        <a href="https://scratch.mit.edu/" target="_blank">
+            <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+        </a>
+        <span id="user-status">Loading...</span>
+        <a href="About_SL.html">About</a>
+        <a href="Quizes.html">Quizzes</a>
+        <a href="learnonyourown.html">Discover Scratch</a>
+        <a href="feed.html">Leave a Feedback</a>
+        <a href="Leaderboards.html">Leaderboards </a>
+        <a href="SL_HomePage.html">
+            <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+        </a>
+    </nav>
+</header>
+
+<body style="text-align: center;">
+    <h1>Leave Your Feedback</h1>
+
+    <form id="feedbackForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="feedback">Your Feedback:</label><br>
+        <input type="text" id="feedback" name="feedback" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Feedback Comments</h2>
+    <div class="comments" id="comments-section">
+        <!-- AJAX will put the feedback here -->
+    </div>
+
+    <h1>FAQs</h1>
+    <div class="faq">
+        <div class="faq-item">
+            <div class="faq-question">What is Scratch used for?</div>
+            <div class="faq-answer" style="display: none;">Scratch is used by kids, students, and beginners to learn coding in a fun and interactive way.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Is Scratch hard to learn?</div>
+            <div class="faq-answer" style="display: none;">Not at all! Scratch is designed for kids and beginners with a simple drag-and-drop interface.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Can I submit a comment without logging in?</div>
+            <div class="faq-answer" style="display: none;">Yes, but anonymous comments may be deleted after 24 hours.</div>
+        </div>
+    </div>
+
+    <footer style="position: fixed;">
+        <p style="text-align: center; color: #666;">© 2025 Sratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>

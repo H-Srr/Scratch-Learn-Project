@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ScratchLearn</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="Official Website of GameShop">
+        <meta charset="UTF-8"> 
+        <meta http-equiv="refresh" content="30">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+
+    </head>
+    <style>
+        body {
+            background-color: #9b6df9;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        header {
+        background-color: #9b6df9;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        top: 0;
+        width: 100%;
+        z-index: 1000; 
+        }
+        header a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        padding: 10px;
+        font-size: 18px;
+        }
+        header a:hover {
+        background-color: rgba(0, 0, 0, 0.1); 
+        border-radius: 4px;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            color: #2c0249;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .image-container {
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .link-container {
+            margin-top: 10px;
+        }
+        .link-container a {
+            display: inline-block;
+            text-decoration: none;
+            background: #2c0249;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        .link-container a:hover {
+            background: #6A0DAD;
+        }
+        footer {
+        background-color: #333;
+        text-align: center;
+        padding: 1px 0;
+        width: 100%;
+        bottom: 0;
+        }
+        .scratch-cat {
+        position: fixed;
+        bottom: 8px;
+        right: 20px;
+        width: 60px;
+        height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header style="position: sticky;">
+        <nav>
+            <a href="https://scratch.mit.edu/" target="_blank">
+                <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+            </a>
+            <span id="user-status">Loading...</span>
+            <a href="About_SL.html">About</a>
+            <a href="Quizes.html">Quizzes</a>
+            <a href="learnonyourown.html">Discover Scratch </a>
+            <a href="feed.html">Leave a Feedback</a>
+            <a href="Leaderboards.html">Leaderboards </a>
+            <a href="SL_HomePage.html">
+                <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://th.bing.com/th?id=OIP.s3_Ar-MOFyLh1a5ggBzXxgHaDO&w=350&h=152&c=8&rs=1&qlt=90&o=6&dpr=1.2&pid=3.1&rm=2" alt="First Image">
+        </div>
+        <div class="link-container">
+            <a href="MathQuiz.html">Math Quiz</a>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 20px;">
+        <div class="image-container">
+            <img src="https://cdn.leverageedu.com/blog/wp-content/uploads/2020/05/21144359/Physics-Quiz.png" alt="Second Image">
+        </div>
+        <div class="link-container">
+            <a href="physQuiz.html">Physics Quiz</a>
+        </div>
+    </div>
+    <footer>
+        <p style="text-align: center; color: #666;">© 2025 Sratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>
