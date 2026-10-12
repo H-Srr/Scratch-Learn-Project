@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Scratch Learn</title>
+    <link rel="StyleSheet" href="css/css.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#signupForm").submit(function (e) {
+                e.preventDefault();
+
+                const $button = $(this).find("button[type=submit]").prop("disabled", true);
+                $("#error-msg").text("");
+
+                $.post("register.php", {
+                    email: $("#email").val(),
+                    username: $("#username").val(),
+                    password: $("#password").val(),
+                    confirm_password: $("#confirm_password").val()
+                })
+                    .done(function (response) {
+                        if (response.trim() === "success") {
+                            $("#error-msg").css("color", "green").text("✅ Registered successfully! Redirecting to login...");
+                            setTimeout(() => {
+                                window.location.href = "LogIn_SL.html"; // This redirects user to login
+                            }, 2000);
+                        } else {
+                            $("#error-msg").css("color", "red").text(response);
+                            $button.prop("disabled", false);
+                        }
+                    })
+                    .fail(function (xhr) {
+                        $("#error-msg").css("color", "red").text(
+                            xhr.responseText && xhr.responseText.indexOf("❌") === 0
+                        ? xhr.responseText
+                        : "❌ Could not reach the server. Please try again."
+                        );
+                        $button.prop("disabled", false);
+                    });
+            });
+        });
+    </script>
+</head>
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+<header style="position: fixed;">
+    <nav>
+        <a href="https://scratch.mit.edu/" target="_blank">
+            <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+        </a>
+        <span id="user-status"><a href="LogIn_SL.html">Log in</a> | <a href="SignUp_SL.html">Sign up</a></span>
+        <a href="About_SL.html">About</a>
+        <a href="Quizes.html">Quizzes</a>
+        <a href="learnonyourown.html">Discover Scratch </a>
+        <a href="feed.html">Leave a Feedback</a>
+        <a href="Leaderboards.html">Leaderboards </a>
+        <a href="SL_HomePage.html">
+            <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+        </a>
+    </nav>
+</header>
+    <div class="logsi-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p id="error-msg" style="margin-top: 10px;"></p>
+
+        <a href="LogIn_SL.html">Already have an account? Log In</a>
+    </div>
+
+    <footer style="position: fixed;">
+        <p style="text-align: center; color: #666;">© 2025 Scratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>

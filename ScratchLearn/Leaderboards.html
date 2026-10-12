@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboards - Scratch Learn</title>
+    <link rel="StyleSheet" href="css/css.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function loadLeaderboard() {
+                $.ajax({
+                    url: "fetch_leaderboard.php",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            renderLeaderboard(response.quizzes, response.data);
+                        } else {
+                            showError(response.error || "Unknown server error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        const serverMessage = xhr.responseJSON && xhr.responseJSON.error;
+                        showError(serverMessage || "The leaderboard could not be loaded. Please try again.");
+                        console.error("AJAX Error:", status, error);
+                    }
+                });
+            }
+
+            // Everything that comes from the server is added with .text(), never as HTML,
+            // so a username can never inject markup into the page.
+            function renderLeaderboard(quizNames, players) {
+                const $content = $("#leaderboard-content").empty();
+
+                if (!players.length) {
+                    $content.append($("<p>").text("No scores yet. Log in and take a quiz to be the first on the board!"));
+                    return;
+                }
+
+                const $table = $("<table>").addClass("leaderboard-table");
+                const $headRow = $("<tr>");
+                ["Rank", "Username"].concat(quizNames, ["Points"]).forEach(function (title) {
+                    $headRow.append($("<th>").text(title));
+                });
+                $table.append($("<thead>").append($headRow));
+
+                const $body = $("<tbody>");
+                players.forEach(function (player) {
+                    const $row = $("<tr>");
+                    $row.append($("<td>").text(player.rank));
+                    $row.append($("<td>").text(player.username));
+                    quizNames.forEach(function (name) {
+                        const result = player.scores[name];
+                        $row.append($("<td>").text(result ? result.score + " / " + result.total : "-"));
+                    });
+                    $row.append($("<td>").text(player.points));
+                    $body.append($row);
+                });
+                $table.append($body);
+
+                // scrolls sideways inside its own box on narrow screens instead of breaking the page
+                $content.append($("<div>").css("overflow-x", "auto").append($table));
+            }
+
+            function showError(message) {
+                const $box = $("<div>").addClass("error-message");
+                $box.append($("<p>").text(message));
+                $box.append($("<button>").attr("type", "button").text("Retry").on("click", function () {
+                    location.reload();
+                }));
+                $("#leaderboard-content").empty().append($box);
+            }
+
+            // Initial load
+            loadLeaderboard();
+        });
+    </script>
+
+    <style>
+        .logsi-container {
+            width: 640px;
+            max-width: 94%;
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .leaderboard-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .leaderboard-table tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <header style="position: fixed;">
+        <nav>
+            <a href="https://scratch.mit.edu/" target="_blank">
+                <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+            </a>
+            <span id="user-status"><a href="LogIn_SL.html">Log in</a> | <a href="SignUp_SL.html">Sign up</a></span>
+            <a href="About_SL.html">About</a>
+            <a href="Quizes.html">Quizzes</a>
+            <a href="learnonyourown.html">Discover Scratch </a>
+            <a href="feed.html">Leave a Feedback</a>
+            <a href="Leaderboards.html">Leaderboards </a>
+            <a href="SL_HomePage.html">
+                <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+            </a>
+        </nav>
+    </header>
+
+    <div class="logsi-container">
+        <h2>Leaderboards</h2>
+        <div id="leaderboard-content">
+            Loading leaderboard data...
+        </div>
+    </div>
+
+    <footer style="position: fixed;">
+        <p style="text-align: center; color: #666;">© 2025 Scratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>
