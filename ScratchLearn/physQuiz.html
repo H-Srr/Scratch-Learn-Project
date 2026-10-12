@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test what you learned about distance and physics with the Scratch Learn physics quiz.">
+    <title>Physics Quiz - Scratch Learn</title>
+    <link rel="StyleSheet" href="css/css.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/quiz.js"></script>
+</head>
+<!--Quiz page: questions are loaded from the database by js/quiz.js-->
+<body style="text-align: center;">
+    <header style="position: sticky; top: 0; z-index: 1000;">
+        <nav>
+            <a href="https://scratch.mit.edu/" target="_blank">
+                <img src="imgs/Scratchlogo.png" alt="Scratch Logo" style="height: 40px; vertical-align: middle;">
+            </a>
+            <span id="user-status"><a href="LogIn_SL.html">Log in</a> | <a href="SignUp_SL.html">Sign up</a></span>
+            <a href="About_SL.html">About</a>
+            <a href="Quizes.html">Quizzes</a>
+            <a href="learnonyourown.html">Discover Scratch </a>
+            <a href="feed.html">Leave a Feedback</a>
+            <a href="Leaderboards.html">Leaderboards </a>
+            <a href="SL_HomePage.html">
+                <img src="imgs/home-icon-4.png" alt="home page" style="height: 40px; vertical-align: middle;">
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Physics Quiz</h1>
+        <h2>Choose the correct answer for each question.</h2>
+
+        <!-- The questions come from the database (get_quiz.php) and are marked on the server (check_quiz.php) -->
+        <form id="quizForm" data-quiz="Physics Quiz">
+            <p id="quiz-status">Loading the questions...</p>
+            <div id="quiz-questions"></div>
+            <button type="submit" id="quiz-submit" hidden>Submit</button>
+        </form>
+
+        <p class="result" id="quiz-result" role="status"></p>
+    </div>
+
+    <footer>
+        <p style="text-align: center; color: #666;">© 2025 Scratch Learn</p>
+    </footer>
+    <img src="imgs/scratch-cat.png" alt="Scratch Cat" class="scratch-cat">
+</body>
+</html>
