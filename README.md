@@ -134,4 +134,4 @@ The database is called `scratch_learn_db` and has seven tables:
 
 ## Authors
 
-Hani Srour and Ali Ghandour, students at the Lebanese American University.
+Hani Srour, student at the Lebanese American University.
