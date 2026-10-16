@@ -1,0 +1,8 @@
+# Real database credentials must never be committed (config.sample.php is the template)
+config.php
+
+# Editor / OS leftovers
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
