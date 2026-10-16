@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Scratch Learn</title>
+    <meta name="description" content="Create a free Scratch Learn account to save your quiz scores on the leaderboard.">
+    <meta name="theme-color" content="#7a4dcc">
+    <link rel="icon" href="imgs/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="imgs/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/css.css?v=5">
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js?v=5"></script>
+    <script src="js/csrf.js?v=5"></script>
+    <script>
+        $(document).ready(function () {
+            $("#signupForm").submit(function (e) {
+                e.preventDefault();
+
+                const $button = $(this).find("button[type=submit]").prop("disabled", true);
+                $("#error-msg").text("");
+
+                ScratchLearn.post("register.php", {
+                    email: $("#email").val(),
+                    username: $("#username").val(),
+                    password: $("#password").val(),
+                    confirm_password: $("#confirm_password").val()
+                })
+                    .done(function (response) {
+                        if (response.trim() === "success") {
+                            $("#error-msg").removeClass("is-error").addClass("is-success").text("✅ Registered successfully! Redirecting to login...");
+                            setTimeout(() => {
+                                window.location.href = "LogIn_SL.html"; // This redirects user to login
+                            }, 2000);
+                        } else {
+                            $("#error-msg").removeClass("is-success").addClass("is-error").text(response);
+                            $button.prop("disabled", false);
+                        }
+                    })
+                    .fail(function (xhr) {
+                        $("#error-msg").removeClass("is-success").addClass("is-error").text(
+                            xhr.responseText && xhr.responseText.indexOf("❌") === 0
+                        ? xhr.responseText
+                        : "❌ Could not reach the server. Please try again."
+                        );
+                        $button.prop("disabled", false);
+                    });
+            });
+        });
+    </script>
+</head>
+<body class="page-center">
+    <header id="site-header"><noscript><a href="SL_HomePage.html">Scratch Learn</a></noscript></header>
+    <main id="main">
+        <div class="logsi-container">
+            <h1>Sign Up</h1>
+            <form id="signupForm">
+                <label class="sr-only" for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" autocomplete="email" required>
+                <label class="sr-only" for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username (3-30 characters)" minlength="3" maxlength="30" autocomplete="username" required>
+                <label class="sr-only" for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password (at least 8 characters)" minlength="8" maxlength="72" autocomplete="new-password" required>
+                <label class="sr-only" for="confirm_password">Confirm password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" minlength="8" maxlength="72" autocomplete="new-password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p id="error-msg" class="form-message" role="status"></p>
+
+            <a href="LogIn_SL.html">Already have an account? Log In</a>
+        </div>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="js/layout.js?v=5"></script>
+</body>
+</html>

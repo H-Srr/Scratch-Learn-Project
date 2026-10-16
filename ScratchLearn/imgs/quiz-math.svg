@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 304" role="img" aria-label="Math Quiz">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2c0249"/>
+      <stop offset="1" stop-color="#6A0DAD"/>
+    </linearGradient>
+  </defs>
+  <rect width="700" height="304" fill="url(#bg)"/>
+  <g fill="#ffffff" opacity="0.10" font-family="Arial, Helvetica, sans-serif" font-weight="bold">
+    <text x="30"  y="90"  font-size="90">+</text>
+    <text x="560" y="80"  font-size="90">&#215;</text>
+    <text x="610" y="260" font-size="90">&#247;</text>
+    <text x="70"  y="280" font-size="90">&#8722;</text>
+    <text x="330" y="60"  font-size="70">7</text>
+    <text x="470" y="290" font-size="70">9</text>
+    <text x="20"  y="190" font-size="70">3</text>
+  </g>
+  <text x="350" y="160" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="bold">12 &#215; 4 = ?</text>
+  <rect x="215" y="196" width="270" height="52" rx="26" fill="#ffd54f"/>
+  <text x="350" y="233" text-anchor="middle" fill="#2c0249" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold">Math Quiz</text>
+</svg>

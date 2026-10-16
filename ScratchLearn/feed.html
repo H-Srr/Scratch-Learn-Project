@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback &amp; FAQs - Scratch Learn</title>
+    <meta name="description" content="Leave a comment about Scratch Learn and read the answers to frequently asked questions.">
+    <meta name="theme-color" content="#7a4dcc">
+    <link rel="icon" href="imgs/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="imgs/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/css.css?v=5">
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js?v=5"></script>
+    <script src="js/csrf.js?v=5"></script>
+    <script>
+        $(document).ready(function () {
+            function loadComments() {
+                $("#comments-section").load("load_feedback.php", function (response, status) {
+                    if (status === "error") {
+                        $("#comments-section").text("Comments could not be loaded right now. Please try again later.");
+                    }
+                });
+            }
+
+            // Load feedback initially
+            loadComments();
+
+            // Submit feedback form by AJAX
+            $("#feedbackForm").submit(function (e) {
+                e.preventDefault(); // prevent normal form submission
+
+                const $button = $(this).find("button[type=submit]").prop("disabled", true);
+                $("#feedback-msg").text("");
+
+                ScratchLearn.post("submit_feedback.php", {
+                    name: $("#name").val(),
+                    feedback: $("#feedback").val(),
+                    website: $("#website").val() // hidden spam trap, people leave it empty
+                })
+                    .done(function (response) {
+                        if (response.trim() === "success") {
+                            // Only clear the form when the comment was really saved
+                            $("#name").val("");
+                            $("#feedback").val("");
+                            $("#feedback-msg").removeClass("is-error").addClass("is-success").text("✅ Thank you! Your feedback was saved.");
+                            loadComments();
+                        } else {
+                            $("#feedback-msg").removeClass("is-success").addClass("is-error").text(response);
+                        }
+                    })
+                    .fail(function (xhr) {
+                        $("#feedback-msg").removeClass("is-success").addClass("is-error").text(
+                            xhr.responseText && xhr.responseText.indexOf("❌") === 0
+                        ? xhr.responseText
+                        : "❌ Could not reach the server. Please try again."
+                        );
+                    })
+                    .always(function () {
+                        $button.prop("disabled", false);
+                    });
+            });
+
+            // FAQ toggle behavior
+            $(".faq-question").click(function () {
+                const opening = $(this).attr("aria-expanded") !== "true";
+                $(this).attr("aria-expanded", opening ? "true" : "false");
+                $("#" + $(this).attr("aria-controls")).slideToggle();
+            });
+        });
+    </script>
+</head>
+<body>
+    <header id="site-header"><noscript><a href="SL_HomePage.html">Scratch Learn</a></noscript></header>
+    <main id="main">
+        <h1>Leave Your Feedback</h1>
+
+        <form id="feedbackForm" class="card-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" maxlength="100" required>
+            <label for="feedback">Your Feedback:</label>
+            <textarea id="feedback" name="feedback" rows="4" maxlength="1000" required></textarea>
+            <div style="position: absolute; left: -9999px;" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <p><button type="submit">Submit</button></p>
+            <p id="feedback-msg" class="form-message" role="status"></p>
+        </form>
+
+        <h2>Feedback Comments</h2>
+        <div class="comments" id="comments-section">
+            <!-- AJAX will put the feedback here -->
+        </div>
+
+        <h2>FAQs</h2>
+        <div class="faq">
+                <div class="faq-item">
+                    <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-1">What is Scratch used for?</button>
+                    <div class="faq-answer" id="faq-1">Scratch is used by kids, students, and beginners to learn coding in a fun and interactive way.</div>
+                </div>
+                <div class="faq-item">
+                    <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-2">Is Scratch hard to learn?</button>
+                    <div class="faq-answer" id="faq-2">Not at all! Scratch is designed for kids and beginners with a simple drag-and-drop interface.</div>
+                </div>
+                <div class="faq-item">
+                    <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-3">Can I submit a comment without logging in?</button>
+                    <div class="faq-answer" id="faq-3">Yes. Anyone can leave a comment, you do not need an account.</div>
+                </div>
+        </div>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="js/layout.js?v=5"></script>
+</body>
+</html>

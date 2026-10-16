@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Quiz - Scratch Learn</title>
+    <meta name="description" content="Test what you learned about distance and physics with the Scratch Learn physics quiz.">
+    <meta name="theme-color" content="#7a4dcc">
+    <link rel="icon" href="imgs/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="imgs/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/css.css?v=5">
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js?v=5"></script>
+    <script src="js/csrf.js?v=5"></script>
+    <script src="js/quiz.js?v=5"></script>
+</head>
+<body>
+    <header id="site-header"><noscript><a href="SL_HomePage.html">Scratch Learn</a></noscript></header>
+    <main id="main">
+        <h1>Physics Quiz</h1>
+        <p class="lead">Choose the correct answer for each question.</p>
+
+        <!-- The questions come from the database (get_quiz.php) and are marked on the server (check_quiz.php) -->
+        <form id="quizForm" class="card-form" data-quiz="Physics Quiz">
+            <p id="quiz-status" role="status">Loading the questions...</p>
+            <div id="quiz-questions"></div>
+            <button type="submit" id="quiz-submit" hidden>Submit</button>
+        </form>
+
+        <p class="result" id="quiz-result" role="status"></p>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="js/layout.js?v=5"></script>
+</body>
+</html>

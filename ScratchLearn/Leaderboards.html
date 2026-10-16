@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboards - Scratch Learn</title>
+    <meta name="description" content="See who has the most points on the Scratch Learn math and physics quizzes.">
+    <meta name="theme-color" content="#7a4dcc">
+    <link rel="icon" href="imgs/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="imgs/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/css.css?v=5">
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js?v=5"></script>
+    <script>
+        $(document).ready(function () {
+            function loadLeaderboard() {
+                $.ajax({
+                    url: "fetch_leaderboard.php",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            renderLeaderboard(response.quizzes, response.data);
+                        } else {
+                            showError(response.error || "Unknown server error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        const serverMessage = xhr.responseJSON && xhr.responseJSON.error;
+                        showError(serverMessage || "The leaderboard could not be loaded. Please try again.");
+                        console.error("AJAX Error:", status, error);
+                    }
+                });
+            }
+
+            // Everything that comes from the server is added with .text(), never as HTML,
+            // so a username can never inject markup into the page.
+            function renderLeaderboard(quizNames, players) {
+                const $content = $("#leaderboard-content").empty();
+
+                if (!players.length) {
+                    $content.append($("<p>").text("No scores yet. Log in and take a quiz to be the first on the board!"));
+                    return;
+                }
+
+                const $table = $("<table>").addClass("leaderboard-table");
+                $table.append($("<caption>").addClass("sr-only").text("Players ranked by total quiz points"));
+                const $headRow = $("<tr>");
+                ["Rank", "Username"].concat(quizNames, ["Points"]).forEach(function (title) {
+                    $headRow.append($("<th>").attr("scope", "col").text(title));
+                });
+                $table.append($("<thead>").append($headRow));
+
+                const $body = $("<tbody>");
+                players.forEach(function (player) {
+                    const $row = $("<tr>");
+                    $row.append($("<td>").text(player.rank));
+                    $row.append($("<td>").text(player.username));
+                    quizNames.forEach(function (name) {
+                        const result = player.scores[name];
+                        $row.append($("<td>").text(result ? result.score + " / " + result.total : "-"));
+                    });
+                    $row.append($("<td>").text(player.points));
+                    $body.append($row);
+                });
+                $table.append($body);
+
+                // scrolls sideways inside its own box on narrow screens instead of breaking the page
+                $content.append(
+                    $("<div>").addClass("table-wrap")
+                        .attr({ tabindex: 0, role: "region", "aria-label": "Leaderboard table" }) // focusable, so keyboard users can scroll it
+                        .append($table)
+                );
+            }
+
+            function showError(message) {
+                const $box = $("<div>").addClass("error-message");
+                $box.append($("<p>").text(message));
+                $box.append($("<button>").attr("type", "button").text("Retry").on("click", function () {
+                    location.reload();
+                }));
+                $("#leaderboard-content").empty().append($box);
+            }
+
+            // Initial load
+            loadLeaderboard();
+        });
+    </script>
+</head>
+<body class="page-center">
+    <header id="site-header"><noscript><a href="SL_HomePage.html">Scratch Learn</a></noscript></header>
+    <main id="main">
+        <div class="logsi-container board">
+            <h1>Leaderboards</h1>
+            <div id="leaderboard-content" role="status">
+                Loading leaderboard data...
+            </div>
+        </div>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="js/layout.js?v=5"></script>
+</body>
+</html>

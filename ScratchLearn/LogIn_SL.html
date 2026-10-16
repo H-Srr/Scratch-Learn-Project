@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Scratch Learn</title>
+    <meta name="description" content="Log in to Scratch Learn to save your quiz scores on the leaderboard.">
+    <meta name="theme-color" content="#7a4dcc">
+    <link rel="icon" href="imgs/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="imgs/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="imgs/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/css.css?v=5">
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/session.js?v=5"></script>
+    <script src="js/csrf.js?v=5"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const $button = $(this).find("button[type=submit]").prop("disabled", true);
+                $("#error-msg").text("");
+
+                ScratchLearn.post("login.php", {
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                })
+                    .done(function (response) {
+                        if (response.trim() === "success") {
+                            window.location.href = "SL_HomePage.html";
+                        } else {
+                            $("#error-msg").text(response);
+                        }
+                    })
+                    .fail(function (xhr) {
+                        // The server answered with an error (or could not be reached): say so
+                        $("#error-msg").text(
+                            xhr.responseText && xhr.responseText.indexOf("❌") === 0
+                        ? xhr.responseText
+                        : "❌ Could not reach the server. Please try again."
+                        );
+                    })
+                    .always(function () {
+                        $button.prop("disabled", false);
+                    });
+            });
+        });
+    </script>
+</head>
+<body class="page-center">
+    <header id="site-header"><noscript><a href="SL_HomePage.html">Scratch Learn</a></noscript></header>
+    <main id="main">
+        <div class="logsi-container">
+            <h1>Log In</h1>
+            <form id="loginForm">
+                <label class="sr-only" for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" autocomplete="email" required>
+                <label class="sr-only" for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
+                <button type="submit">Log In</button>
+            </form>
+
+            <p id="error-msg" class="form-message is-error" role="alert"></p>
+
+            <a href="SignUp_SL.html">Don't have an account? Sign Up</a>
+        </div>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="js/layout.js?v=5"></script>
+</body>
+</html>
